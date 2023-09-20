@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+
+  <title>Frontend Mentor | Advice generator app</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Manrope', sans-serif;
+      font-size: 10px;
+    }
+
+    :root {
+      --light-cyan: #cee3e9;
+      --neon-green: #52ffa8;
+      --grayish-blue: #4e5d73;
+      --dark-grayishblue: #323a49;
+      --dark-blue: #1f2632;
+    }
+
+    .advice-id {
+      font-weight: 800;
+      font-size: 1.1rem;
+      line-height: 1.5rem;
+      letter-spacing: .3rem;
+      color: var(--neon-green);
+      text-transform: uppercase;
+
+      @media (min-width: 768px) {
+        font-size: 1.3rem;
+        line-height: 1.8rem;
+        letter-spacing: .41rem;
+      }
+    }
+
+    .advice-quote {
+      font-weight: 800;
+      font-size: 2.4rem;
+      line-height: 3.3rem;
+      letter-spacing: -.0257143rem;
+      color: var(--light-cyan);
+
+      @media (min-width: 768px) {
+        font-size: 2.8rem;
+        line-height: 3.8rem;
+        letter-spacing: -.03rem;
+      }
+    }
+
+
+
+    .button {
+      width: 6.4rem;
+      height: 6.4rem;
+      display: grid;
+      place-content: center;
+      background: var(--neon-green);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 0px 0px 40px #53ffaa;
+        transition: .4s;
+      }
+    }
+
+
+
+    body {
+      background-color: var(--dark-blue);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      margin: 12rem auto;
+      padding: 4rem 2.4rem 6.4rem 2.4rem;
+      width: 34.3rem;
+      background: var(--dark-grayishblue);
+      box-shadow: 3rem 5rem 8rem rgba(0, 0, 0, 0.100202);
+      border-radius: 1rem;
+      text-align: center;
+      position: relative;
+
+      @media (min-width: 768px) {
+        padding: 4.8rem 4.8rem 7.2rem 4.8rem;
+        width: 54rem;
+      }
+
+      @media (max-width: 767px) {
+        .card__divider--mobile {
+          display: block;
+        }
+
+        .card__divider--desktop {
+          display: none;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .card__divider--mobile {
+          display: none;
+        }
+
+        .card__divider--desktop {
+          display: block;
+        }
+      }
+      
+      .card__button {
+        position: absolute;
+        bottom: -3.2rem;
+        left: 14rem;
+
+        @media (min-width: 768px) {
+          left: 23.8rem;
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <h1 class="advice-id" id="adviceId">ADVICE #117</h1>
+    <p class="card__advice">
+      <q class="advice-quote" id="adviceQuote">It is easy to sit up and take notice, what's difficult isgetting up and
+        taking action.</q>
+    </p>
+    <img src="./images/pattern-divider-mobile.svg" alt="Divider pattern" class="card__divider card__divider--mobile" />
+    <img src="./images/pattern-divider-desktop.svg" alt="Divider pattern"
+      class="card__divider card__divider--desktop" />
+
+
+    <div type="button" id="button" class="button card__button">
+      <img src="./images/icon-dice.svg" alt="Dice" />
+    </div>
+  </main>
+
+  <script>
+    const adviceId = document.getElementById("adviceId")
+    const adviceQuote = document.getElementById("adviceQuote")
+    const button = document.getElementById("button")
+
+    const adviceInfo = () => {
+      fetch("https://api.adviceslip.com/advice", { cache: "no-cache" })
+        .then(response => response.json())
+        .then(data => {
+          let advice = data.slip
+          adviceId.innerHTML = `ADVICE #${advice.id}`
+          adviceQuote.innerHTML = `${advice.advice}`
+        })
+    }
+
+    button.addEventListener("click", adviceInfo)
+  </script>
+</body>
+
+</html>
